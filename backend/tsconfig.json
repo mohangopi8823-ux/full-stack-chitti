@@ -1,0 +1,20 @@
+{
+  "include": ["server/**/*", "shared/**/*", "drizzle/**/*"],
+  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "noEmit": true,
+    "module": "ESNext",
+    "strict": true,
+    "lib": ["esnext", "dom"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "ignoreDeprecations": "5.0",
+    "paths": {
+      "@shared/*": ["./shared/*"]
+    }
+  }
+}

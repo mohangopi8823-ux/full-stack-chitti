@@ -1,0 +1,14 @@
+{
+  "name": "restaurant-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --dir frontend dev",
+    "server": "pnpm --dir backend dev",
+    "backend": "pnpm --dir backend dev",
+    "dev:frontend": "pnpm --dir frontend dev",
+    "dev:backend": "pnpm --dir backend dev",
+    "check:frontend": "pnpm --dir frontend check",
+    "check:backend": "pnpm --dir backend check"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "restaurant-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development PORT=3000 tsx watch server/_core/index.ts",
+    "server": "pnpm dev",
+    "backend": "pnpm dev",
+    "build": "esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "db:push": "drizzle-kit push",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.693.0",
+    "@aws-sdk/s3-request-presigner": "^3.693.0",
+    "@supabase/supabase-js": "^2.107.0",
+    "@trpc/server": "^11.6.0",
+    "axios": "^1.12.0",
+    "cookie": "^1.0.2",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.44.5",
+    "express": "^4.21.2",
+    "jose": "6.1.0",
+    "nanoid": "^5.1.5",
+    "node-cron": "^4.2.1",
+    "postgres": "^3.4.9",
+    "superjson": "^1.13.3",
+    "xlsx": "^0.18.5",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.21",
+    "@types/node": "^24.7.0",
+    "cross-env": "^7.0.3",
+    "drizzle-kit": "^0.31.4",
+    "esbuild": "^0.25.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.19.1",
+    "typescript": "5.9.3",
+    "vitest": "^2.1.4"
+  }
+}
