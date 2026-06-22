@@ -4,7 +4,7 @@ import crypto from "crypto";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { ENV } from "./_core/env";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { adminProcedure, publicProcedure, router } from "./_core/trpc";
 import { normalizeOrderSettings } from "../shared/orderLimits";
 import { getStoreClosedMessage, isStoreOpenAtIndiaTime, isValidStoreTime } from "../shared/storeHours";
 import {
@@ -158,7 +158,7 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return getMenuItemById(input);
       }),
-    updateStock: publicProcedure
+    updateStock: adminProcedure
       .input(z.object({
         menuItemId: z.coerce.number().int().positive(),
         stockQuantity: z.coerce.number().int().nonnegative(),
@@ -179,7 +179,7 @@ export const appRouter = router({
         timeZone: "Asia/Kolkata",
       };
     }),
-    update: publicProcedure
+    update: adminProcedure
       .input(storeHoursInputSchema)
       .mutation(async ({ input }) => {
         const hours = await updateStoreHours(input);
@@ -197,7 +197,7 @@ export const appRouter = router({
     settings: publicProcedure.query(async () => {
       return getOrderSettings();
     }),
-    updateSettings: publicProcedure
+    updateSettings: adminProcedure
       .input(orderSettingsInputSchema)
       .mutation(async ({ input }) => {
         const settings = normalizeOrderSettings({
@@ -249,7 +249,7 @@ export const appRouter = router({
         return { orderId };
       }),
 
-    markPaymentStatus: publicProcedure
+    markPaymentStatus: adminProcedure
       .input(z.object({
         orderId: z.coerce.number().int().positive(),
         paymentStatus: paymentStatusInputSchema.shape.paymentStatus,

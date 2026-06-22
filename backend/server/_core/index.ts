@@ -37,6 +37,10 @@ const ADMIN_COOKIE_NAME = "chitti_admin_session";
 const LOCAL_DEV_FRONTEND_ORIGINS = new Set([
   "http://localhost:5173",
   "http://127.0.0.1:5173",
+  "http://localhost:5174",
+  "http://127.0.0.1:5174",
+  "http://localhost:5175",
+  "http://127.0.0.1:5175",
 ]);
 
 const envPath = path.resolve(process.cwd(), ".env.local");
@@ -191,10 +195,20 @@ function isValidAdminSessionToken(token: string | undefined) {
   return Number.isFinite(expiresAt) && expiresAt > Date.now();
 }
 
+function getAdminBearerToken(req: express.Request) {
+  const value = req.headers.authorization;
+  if (!value) return undefined;
+  const [scheme, token] = value.split(" ");
+  return scheme?.toLowerCase() === "bearer" ? token : undefined;
+}
+
 function requireAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
   const cookies = parseCookies(req.headers.cookie);
 
-  if (!isValidAdminSessionToken(cookies[ADMIN_COOKIE_NAME])) {
+  if (
+    !isValidAdminSessionToken(cookies[ADMIN_COOKIE_NAME]) &&
+    !isValidAdminSessionToken(getAdminBearerToken(req))
+  ) {
     res.status(401).json({ message: "Admin login required" });
     return;
   }
@@ -203,13 +217,17 @@ function requireAdmin(req: express.Request, res: express.Response, next: express
 }
 
 function setAdminSessionCookie(res: express.Response) {
-  res.cookie(ADMIN_COOKIE_NAME, createAdminSessionToken(), {
+  const token = createAdminSessionToken();
+
+  res.cookie(ADMIN_COOKIE_NAME, token, {
     httpOnly: true,
     sameSite: "lax",
     secure: ENV.isProduction,
     maxAge: 12 * 60 * 60 * 1000,
     path: "/",
   });
+
+  return token;
 }
 
 function clearAdminSessionCookie(res: express.Response) {
@@ -325,6 +343,7 @@ function verifyTrackOrderOtp(customerPhone: string, otp: string) {
 function isAllowedFrontendOrigin(origin: string | undefined) {
   if (!origin) return false;
   if (origin === ENV.frontendUrl) return true;
+  if (origin === ENV.adminFrontendUrl) return true;
 
   return !ENV.isProduction && LOCAL_DEV_FRONTEND_ORIGINS.has(origin);
 }
@@ -345,8 +364,8 @@ function registerOrderApiRoutes(app: express.Express) {
       return;
     }
 
-    setAdminSessionCookie(res);
-    res.json({ success: true });
+    const token = setAdminSessionCookie(res);
+    res.json({ success: true, token });
   });
 
   app.post("/api/admin/logout", (_req, res) => {
@@ -356,7 +375,11 @@ function registerOrderApiRoutes(app: express.Express) {
 
   app.get("/api/admin/session", (req, res) => {
     const cookies = parseCookies(req.headers.cookie);
-    res.json({ authenticated: isValidAdminSessionToken(cookies[ADMIN_COOKIE_NAME]) });
+    res.json({
+      authenticated:
+        isValidAdminSessionToken(cookies[ADMIN_COOKIE_NAME]) ||
+        isValidAdminSessionToken(getAdminBearerToken(req)),
+    });
   });
 
   app.get("/api/menu", async (_req, res) => {
@@ -487,7 +510,7 @@ function registerOrderApiRoutes(app: express.Express) {
     }
   });
 
-  app.get("/api/orders", async (_req, res) => {
+  app.get("/api/orders", requireAdmin, async (_req, res) => {
     try {
       res.json(await getAllOrdersWithItems());
     } catch (error) {
@@ -607,7 +630,7 @@ function registerOrderApiRoutes(app: express.Express) {
     }
   });
 
-  app.get("/api/orders/:id", async (req, res) => {
+  app.get("/api/orders/:id", requireAdmin, async (req, res) => {
     const orderId = Number(req.params.id);
     if (!Number.isInteger(orderId) || orderId <= 0) {
       res.status(400).json({ message: "Invalid order number" });
@@ -628,7 +651,7 @@ function registerOrderApiRoutes(app: express.Express) {
     }
   });
 
-  app.patch("/api/orders/:id/status", async (req, res) => {
+  app.patch("/api/orders/:id/status", requireAdmin, async (req, res) => {
     const orderId = Number(req.params.id);
     const parsed = orderStatusApiSchema.safeParse(req.body);
     if (!Number.isInteger(orderId) || orderId <= 0 || !parsed.success) {
@@ -647,7 +670,7 @@ function registerOrderApiRoutes(app: express.Express) {
     }
   });
 
-  app.patch("/api/orders/:id/payment-status", async (req, res) => {
+  app.patch("/api/orders/:id/payment-status", requireAdmin, async (req, res) => {
     const orderId = Number(req.params.id);
     const parsed = paymentStatusApiSchema.safeParse(req.body);
     if (!Number.isInteger(orderId) || orderId <= 0 || !parsed.success) {
@@ -667,18 +690,7 @@ function registerOrderApiRoutes(app: express.Express) {
 }
 
 function registerBackupOldOrdersRoute(app: express.Express) {
-  app.post("/api/admin/backup-old-orders", async (req, res) => {
-    if (!ENV.backupAdminSecret) {
-      console.error("[Old Orders Backup] BACKUP_ADMIN_SECRET is missing. Manual backup route disabled.");
-      res.status(503).json({ message: "Backup admin secret is not configured" });
-      return;
-    }
-
-    if (!isBackupRouteAuthorized(req)) {
-      res.status(401).json({ message: "Invalid backup admin secret" });
-      return;
-    }
-
+  app.post("/api/admin/backup-old-orders", requireAdmin, async (req, res) => {
     const deleteAfterBackup = req.query.delete === "true";
 
     try {

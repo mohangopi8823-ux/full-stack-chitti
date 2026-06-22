@@ -32,6 +32,7 @@ export const ENV = {
   supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY ?? "",
   backupAdminSecret: process.env.BACKUP_ADMIN_SECRET ?? "",
   frontendUrl: process.env.FRONTEND_URL ?? "http://localhost:5173",
+  adminFrontendUrl: process.env.ADMIN_FRONTEND_URL ?? "http://localhost:5175",
   adminUsername: process.env.ADMIN_USERNAME ?? "admin",
   adminPassword: process.env.ADMIN_PASSWORD ?? "admin123",
   adminSessionSecret: process.env.ADMIN_SESSION_SECRET ?? process.env.JWT_SECRET ?? "",
