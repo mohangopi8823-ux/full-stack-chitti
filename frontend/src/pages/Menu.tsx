@@ -604,17 +604,17 @@ export default function MenuPage() {
               <Link href="/" className="text-gray-700 hover:text-green-700 font-medium transition">
                 Home
               </Link>
-              <Link href="/about" className="text-gray-700 hover:text-green-700 font-medium transition">
-                About
-              </Link>
               <Link href="/menu" className="text-green-700 font-bold border-b-2 border-green-700">
                 Menu
               </Link>
+              <Link href="/cart" className="text-gray-700 hover:text-green-700 font-medium transition">
+                Cart
+              </Link>
+              <Link href="/checkout" className="text-gray-700 hover:text-green-700 font-medium transition">
+                Checkout
+              </Link>
               <Link href="/track-order" className="text-gray-700 hover:text-green-700 font-medium transition">
                 Track Order
-              </Link>
-              <Link href="/contact" className="text-gray-700 hover:text-green-700 font-medium transition">
-                Contact
               </Link>
             </div>
 
@@ -654,17 +654,17 @@ export default function MenuPage() {
               <Link href="/" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
                 Home
               </Link>
-              <Link href="/about" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
-                About
-              </Link>
               <Link href="/menu" className="block rounded-md px-3 py-2 font-bold text-green-700 hover:bg-green-50">
                 Menu
               </Link>
+              <Link href="/cart" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
+                Cart
+              </Link>
+              <Link href="/checkout" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
+                Checkout
+              </Link>
               <Link href="/track-order" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
                 Track Order
-              </Link>
-              <Link href="/contact" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
-                Contact
               </Link>
               <Link href="/menu" asChild>
                 <Button className="mt-3 w-full bg-yellow-500 font-bold text-gray-900 hover:bg-yellow-600">
@@ -736,7 +736,7 @@ export default function MenuPage() {
                 <p className="mt-2 text-sm text-red-600">
                   {menuError instanceof Error
                     ? menuError.message
-                    : "Backend is not reachable. Make sure the backend is running at http://localhost:3000 and VITE_API_URL uses http, not https."}
+                    : "Backend is not reachable. Make sure VITE_API_URL points to the backend API."}
                 </p>
               </div>
             ) : menuItems.length === 0 ? (
@@ -1031,10 +1031,10 @@ export default function MenuPage() {
               <h4 className="text-lg font-bold text-yellow-500 mb-4">Quick Links</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/" className="hover:text-yellow-500 transition">Home</Link></li>
-                <li><Link href="/about" className="hover:text-yellow-500 transition">About</Link></li>
                 <li><Link href="/menu" className="hover:text-yellow-500 transition">Menu</Link></li>
+                <li><Link href="/cart" className="hover:text-yellow-500 transition">Cart</Link></li>
+                <li><Link href="/checkout" className="hover:text-yellow-500 transition">Checkout</Link></li>
                 <li><Link href="/track-order" className="hover:text-yellow-500 transition">Track Order</Link></li>
-                <li><Link href="/contact" className="hover:text-yellow-500 transition">Contact</Link></li>
               </ul>
             </div>
 

@@ -134,17 +134,17 @@ export default function TrackOrder() {
               <Link href="/" className="text-gray-700 hover:text-green-700 font-medium transition">
                 Home
               </Link>
-              <Link href="/about" className="text-gray-700 hover:text-green-700 font-medium transition">
-                About
-              </Link>
               <Link href="/menu" className="text-gray-700 hover:text-green-700 font-medium transition">
                 Menu
               </Link>
+              <Link href="/cart" className="text-gray-700 hover:text-green-700 font-medium transition">
+                Cart
+              </Link>
+              <Link href="/checkout" className="text-gray-700 hover:text-green-700 font-medium transition">
+                Checkout
+              </Link>
               <Link href="/track-order" className="text-green-700 font-bold border-b-2 border-green-700">
                 Track Order
-              </Link>
-              <Link href="/contact" className="text-gray-700 hover:text-green-700 font-medium transition">
-                Contact
               </Link>
             </div>
 
@@ -172,17 +172,17 @@ export default function TrackOrder() {
               <Link href="/" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
                 Home
               </Link>
-              <Link href="/about" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
-                About
-              </Link>
               <Link href="/menu" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
                 Menu
               </Link>
+              <Link href="/cart" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
+                Cart
+              </Link>
+              <Link href="/checkout" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
+                Checkout
+              </Link>
               <Link href="/track-order" className="block rounded-md px-3 py-2 font-bold text-green-700 hover:bg-green-50">
                 Track Order
-              </Link>
-              <Link href="/contact" className="block rounded-md px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700">
-                Contact
               </Link>
               <Link href="/menu" asChild>
                 <Button className="mt-3 w-full bg-yellow-500 font-bold text-gray-900 hover:bg-yellow-600">

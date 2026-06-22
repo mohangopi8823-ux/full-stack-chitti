@@ -342,8 +342,14 @@ function verifyTrackOrderOtp(customerPhone: string, otp: string) {
 
 function isAllowedFrontendOrigin(origin: string | undefined) {
   if (!origin) return false;
-  if (origin === ENV.frontendUrl) return true;
-  if (origin === ENV.adminFrontendUrl) return true;
+
+  const normalizedOrigin = origin.replace(/\/+$/, "");
+  const configuredOrigins = [ENV.frontendUrl, ENV.adminFrontendUrl]
+    .flatMap((value) => value.split(","))
+    .map((value) => value.trim().replace(/\/+$/, ""))
+    .filter(Boolean);
+
+  if (configuredOrigins.includes(normalizedOrigin)) return true;
 
   return !ENV.isProduction && LOCAL_DEV_FRONTEND_ORIGINS.has(origin);
 }

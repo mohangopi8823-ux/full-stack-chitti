@@ -4,11 +4,14 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm --dir frontend dev",
+    "admin": "pnpm --dir admin dev",
     "server": "pnpm --dir backend dev",
     "backend": "pnpm --dir backend dev",
     "dev:frontend": "pnpm --dir frontend dev",
+    "dev:admin": "pnpm --dir admin dev",
     "dev:backend": "pnpm --dir backend dev",
     "check:frontend": "pnpm --dir frontend check",
+    "check:admin": "pnpm --dir admin check",
     "check:backend": "pnpm --dir backend check"
   }
 }

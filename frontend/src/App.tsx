@@ -5,27 +5,19 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
-import About from "./pages/About";
 import Menu from "./pages/Menu";
-import AdminDashboard from "./pages/AdminDashboard";
-import AdminOrders from "./pages/AdminOrders";
-import AdminLogin from "./pages/AdminLogin";
-import KitchenPrint from "./pages/KitchenPrint";
-import Contact from "./pages/Contact";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 import TrackOrder from "./pages/TrackOrder";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/about" component={About} />
       <Route path="/menu" component={Menu} />
+      <Route path="/cart" component={Cart} />
+      <Route path="/checkout" component={Checkout} />
       <Route path="/track-order" component={TrackOrder} />
-      <Route path="/admin-login" component={AdminLogin} />
-      <Route path="/admin-dashboard" component={AdminDashboard} />
-      <Route path="/admin-orders/:id/print" component={KitchenPrint} />
-      <Route path="/admin-orders" component={AdminOrders} />
-      <Route path="/contact" component={Contact} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
